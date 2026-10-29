@@ -3,8 +3,17 @@ EduBot FastAPI application — REST + simple HTML chat UI
 """
 
 import logging
+import os
 import uuid
+from pathlib import Path
 from typing import Dict, List, Optional
+
+# Load .env for local dev (no-op in production)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -52,8 +61,8 @@ class ChatResponse(BaseModel):
 @app.get("/", response_class=HTMLResponse)
 async def root():
     """Serve the embedded chat UI."""
-    with open("edubot/templates/chat.html", "r", encoding="utf-8") as fh:
-        return HTMLResponse(content=fh.read())
+    html_path = Path(__file__).parent / "templates" / "chat.html"
+    return HTMLResponse(content=html_path.read_text(encoding="utf-8"))
 
 
 @app.post("/chat", response_model=ChatResponse)

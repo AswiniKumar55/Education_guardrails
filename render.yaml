@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: edubot
+    env: python
+    region: frankfurt
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn edubot.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: WATSONX_API_KEY
+        value: nzyTbmF-dhxc-DPwDA-F--s7arcXs5Cq9IkbStHb0uHu
+      - key: WATSONX_PROJECT_ID
+        value: 918a0ce3-5ac3-44d2-b1cc-fe1348b009bb
+      - key: WATSONX_URL
+        value: https://eu-de.ml.cloud.ibm.com
+      - key: WATSONX_MODEL_ID
+        value: ibm/granite-4-h-small
+      - key: APP_DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: INFO
